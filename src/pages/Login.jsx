@@ -9,7 +9,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   // ✅ Replace this URL with your live backend API base
-  const API_BASE = "https://pillpop-backend.onrender.com/api/auth/login";
+  const API_BASE = "https://pharmiq-backend-v1.onrender.com/api/auth/login";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
