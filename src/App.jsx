@@ -9,16 +9,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Default route → Login Page */}
         <Route path="/" element={<Login />} />
-
-        {/* Dashboard Routes */}
         <Route path="/superadmin/dashboard" element={<DashboardSuperAdmin />} />
         <Route path="/admin/dashboard" element={<DashboardAdmin />} />
         <Route path="/staff/dashboard" element={<DashboardStaff />} />
-
-        {/* Fallback Route */}
-        <Route path="*" element={<div>404 Page Not Found (React Router)</div>} />
+        <Route path="*" element={<div>404 - Page Not Found</div>} />
       </Routes>
     </Router>
   );
