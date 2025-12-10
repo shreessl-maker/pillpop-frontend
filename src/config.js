@@ -1,6 +1,1 @@
-src/
-  config.js
-  pages/
-    Login.jsx
-  App.jsx
-  main.jsx
+xport const API_BASE_URL = "https://pillpop-backend-wbr1.onrender.com";
