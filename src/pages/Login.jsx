@@ -1,56 +1,32 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-
-  // ✅ Replace this URL with your live backend API base
-  const API_BASE = "https://pharmiq-backend-v1.onrender.com/api/auth/login";
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
 
     try {
-      const response = await fetch(API_BASE, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
-      setLoading(false);
 
-      if (!response.ok) {
-        setError(data.message || "Invalid credentials");
-        return;
-      }
-
-      // ✅ Save token to localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.role);
-
-      // ✅ Redirect based on role
-      if (data.role === "superadmin") {
-        navigate("/dashboard-superadmin");
-      } else if (data.role === "admin") {
-        navigate("/dashboard-admin");
-      } else if (data.role === "staff") {
-        navigate("/dashboard-staff");
+      if (response.ok) {
+        setMessage("✅ Login successful!");
+        console.log("User Data:", data);
       } else {
-        setError("Unknown role. Please contact support.");
+        setMessage(`❌ ${data.message || "Login failed"}`);
       }
-    } catch (err) {
-      console.error("Login error:", err);
-      setError("Something went wrong. Please try again.");
-      setLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+      setMessage("⚠️ Server error. Please try again later.");
     }
   };
 
@@ -83,16 +59,15 @@ export default function Login() {
           />
           <button
             type="submit"
-            disabled={loading}
-            className={`w-full py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold transition ${
-              loading ? "opacity-60 cursor-not-allowed" : "hover:opacity-90"
-            }`}
+            className="w-full py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold hover:opacity-90 transition"
           >
-            {loading ? "Signing in..." : "Sign In"}
+            Sign In
           </button>
         </form>
 
-        {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
+        {message && (
+          <p className="mt-4 text-sm font-medium text-gray-600">{message}</p>
+        )}
 
         <p className="mt-6 text-xs text-gray-400">
           © {new Date().getFullYear()} PillPopHQ. All rights reserved.
