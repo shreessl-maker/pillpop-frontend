@@ -1,61 +1,34 @@
 import React from "react";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 import { Line } from "react-chartjs-2";
-import Navbar from "../components/Navbar.jsx";
-import Sidebar from "../components/Sidebar.jsx";
-import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend } from "chart.js";
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
+import { Chart as ChartJS, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js";
+
+ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 export default function DashboardStaff() {
-  const lineData = {
-    labels: ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"],
+  const data = {
+    labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
     datasets: [
       {
-        label: "Performance Trend (%)",
-        data: [70, 75, 78, 82, 85, 90],
-        borderColor: "rgba(91, 33, 182, 0.8)",
-        fill: false,
-        tension: 0.3,
+        label: "Score",
+        data: [65, 75, 85, 95],
+        borderColor: "#3b82f6",
+        backgroundColor: "#3b82f630",
+        fill: true,
       },
     ],
   };
 
-  const sidebarLinks = [
-    { label: "Dashboard", path: "/dashboard/staff" },
-    { label: "My Tests", path: "#" },
-    { label: "Reports", path: "#" },
-  ];
-
   return (
-    <div className="flex min-h-screen">
-      <Sidebar links={sidebarLinks} />
-      <div className="flex-1 flex flex-col">
-        <Navbar role="Staff" />
-
-        <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white shadow-md rounded-lg p-6 text-center">
-            <h3 className="text-gray-600">Upcoming Tests</h3>
-            <p className="text-3xl font-bold text-primary">2</p>
-          </div>
-          <div className="bg-white shadow-md rounded-lg p-6 text-center">
-            <h3 className="text-gray-600">Completed Tests</h3>
-            <p className="text-3xl font-bold text-primary">5</p>
-          </div>
-          <div className="bg-white shadow-md rounded-lg p-6 text-center">
-            <h3 className="text-gray-600">Average Score</h3>
-            <p className="text-3xl font-bold text-primary">88%</p>
-          </div>
+    <div>
+      <Navbar title="Staff Dashboard" />
+      <div className="flex">
+        <Sidebar menu={["My Tests", "History", "Performance"]} />
+        <div className="flex-1 p-6">
+          <h2 className="text-2xl font-bold mb-4">Weekly Performance</h2>
+          <Line data={data} />
         </div>
-
-        <div className="p-6">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-lg font-semibold mb-4">Performance Trend</h2>
-            <Line data={lineData} />
-          </div>
-        </div>
-
-        <footer className="text-center text-gray-400 py-4">
-          © 2025 PillPopHQ. All Rights Reserved.
-        </footer>
       </div>
     </div>
   );
