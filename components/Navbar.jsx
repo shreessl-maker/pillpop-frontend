@@ -1,19 +1,20 @@
-export default function Navbar({ role }) {
+import React from "react";
+
+export default function Navbar({ title }) {
+  const logout = () => {
+    localStorage.removeItem("role");
+    window.location.href = "/";
+  };
+
   return (
-    <nav className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 flex justify-between items-center shadow">
-      <h1 className="text-xl font-bold">PillPopHQ</h1>
-      <div className="flex items-center gap-4">
-        <span className="text-sm">Welcome, {role}</span>
-        <button
-          onClick={() => {
-            localStorage.clear();
-            window.location.href = "/login";
-          }}
-          className="bg-white text-primary font-semibold px-3 py-1 rounded hover:bg-purple-100"
-        >
-          Logout
-        </button>
+    <div className="flex justify-between items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <div className="flex items-center gap-3">
+        <img src="/logo-placeholder.png" alt="logo" className="w-8 h-8 rounded-full bg-white" />
+        <h1 className="text-xl font-bold">{title}</h1>
       </div>
-    </nav>
+      <button onClick={logout} className="bg-white text-blue-700 px-3 py-1 rounded-lg text-sm font-semibold hover:bg-gray-200">
+        Logout
+      </button>
+    </div>
   );
 }
